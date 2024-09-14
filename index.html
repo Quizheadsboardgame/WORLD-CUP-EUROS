@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Cup and Euros Quiz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Baloo 2', sans-serif;
+            background-color: #38B6FF; /* Background color */
+            color: black;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        #yellow-box {
+            width: 300px;
+            height: 300px;
+            background-color: #FED405; /* Yellow color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            border: 5px solid black; /* Black edging */
+            transition: transform 0.1s ease-in-out;
+        }
+
+        #question-answer {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* Keyframes for the bounce animation */
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Class to trigger the bounce animation */
+        .animate-bounce {
+            animation: bounce 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="yellow-box">WORLD CUP & EUROS</div>
+
+    <div id="question-answer"></div>
+
+    <script>
+        const yellowBox = document.getElementById("yellow-box");
+        const questionAnswerDiv = document.getElementById("question-answer");
+
+        // Array of questions and answers about the World Cup and Euros from 1992-2024
+        const sportsQuestions = [
+            { question: "Which country won the 1994 FIFA World Cup?", answer: "Brazil" },
+            { question: "Who was the top scorer of the 1998 World Cup?", answer: "Zinedine Zidane" },
+            { question: "Which country won the UEFA Euro 2000?", answer: "France" },
+            { question: "Who won the 2006 FIFA World Cup?", answer: "Italy" },
+            { question: "Which city hosted the 2012 UEFA European Championship final?", answer: "Kiev" },
+            { question: "Who won the 2014 FIFA World Cup?", answer: "Germany" },
+            { question: "Which country won the UEFA Euro 2016?", answer: "Portugal" },
+            { question: "Who was the top scorer of the 2018 FIFA World Cup?", answer: "Harry Kane" },
+            { question: "Which city hosted the 2020 UEFA European Championship final?", answer: "London" },
+            { question: "Who won the 2022 FIFA World Cup?", answer: "Argentina" },
+            { question: "Which country won the FIFA World Cup in 1990?", answer: "West Germany" },
+            { question: "Who won the UEFA Euro 2004?", answer: "Greece" },
+            { question: "Which team won the 1998 FIFA World Cup?", answer: "France" },
+            { question: "Who was the Golden Boot winner of the 2002 FIFA World Cup?", answer: "Ronaldo" },
+            { question: "Which country hosted the 1996 UEFA European Championship?", answer: "England" },
+            { question: "Who won the 2010 FIFA World Cup?", answer: "Spain" },
+            { question: "Which city hosted the 2008 UEFA European Championship final?", answer: "Vienna" },
+            { question: "Who was the top scorer of the UEFA Euro 2012?", answer: "Cristiano Ronaldo" },
+            { question: "Which country won the FIFA World Cup in 1966?", answer: "England" },
+            { question: "Who won the UEFA Euro 1996?", answer: "Germany" },
+            { question: "Which country won the 2024 UEFA European Championship?", answer: "TBD" },
+            { question: "Who was the top scorer of the UEFA Euro 2016?", answer: "Antoine Griezmann" },
+            { question: "Which team won the 1992 FIFA World Cup?", answer: "West Germany" },
+            { question: "Who won the UEFA Euro 2008?", answer: "Spain" },
+            { question: "Which city hosted the 2018 FIFA World Cup final?", answer: "Moscow" },
+            { question: "Who was the top scorer of the 2006 FIFA World Cup?", answer: "Miroslav Klose" },
+            { question: "Which country won the UEFA Euro 2012?", answer: "Spain" },
+            { question: "Who won the 2020 UEFA European Championship?", answer: "Italy" },
+            { question: "Which team won the 2018 FIFA World Cup?", answer: "France" },
+            { question: "Who was the top scorer of the UEFA Euro 2004?", answer: "Mihajlo Mladenović" },
+            { question: "Which city hosted the 2006 FIFA World Cup final?", answer: "Berlin" },
+            { question: "Who won the 2014 FIFA World Cup Golden Boot?", answer: "James Rodríguez" },
+            { question: "Which country won the 2002 FIFA World Cup?", answer: "Brazil" },
+            { question: "Who was the top scorer of the 2010 FIFA World Cup?", answer: "Thomas Müller" },
+            { question: "Which team won the 2016 UEFA European Championship?", answer: "Portugal" },
+            { question: "Who won the UEFA Euro 1992?", answer: "Denmark" },
+            { question: "Which country won the FIFA World Cup in 2010?", answer: "Spain" },
+            { question: "Who was the top scorer of the UEFA Euro 2008?", answer: "David Villa" },
+            { question: "Which city hosted the 2004 UEFA European Championship final?", answer: "Lisbon" },
+            { question: "Who won the UEFA Euro 1988?", answer: "Netherlands" },
+            { question: "Which country won the 2010 FIFA World Cup?", answer: "Spain" },
+            { question: "Who was the top scorer of the 2004 UEFA European Championship?", answer: "Thierry Henry" },
+            { question: "Which country won the FIFA World Cup in 1958?", answer: "Brazil" },
+            { question: "Who won the UEFA Euro 2004?", answer: "Greece" },
+            { question: "Which team won the 1990 FIFA World Cup?", answer: "West Germany" },
+            { question: "Who was the top scorer of the 1994 FIFA World Cup?", answer: "Romário" },
+            { question: "Which city hosted the 1998 FIFA World Cup final?", answer: "Saint-Denis" },
+            { question: "Who won the UEFA Euro 2016?", answer: "Portugal" },
+            { question: "Which country won the FIFA World Cup in 2006?", answer: "Italy" },
+            { question: "Who was the top scorer of the UEFA Euro 1992?", answer: "Pavel Nedvěd" },
+            { question: "Which team won the 2022 FIFA World Cup?", answer: "Argentina" },
+            { question: "Who won the UEFA Euro 1992?", answer: "Denmark" },
+            { question: "Which country won the FIFA World Cup in 1990?", answer: "West Germany" }
+        ];
+
+        let shuffledQuestions = [];
+        let questionIndex = 0;
+
+        // Shuffle the questions array
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Initialize questions
+        function initializeQuestions() {
+            shuffledQuestions = shuffleArray([...sportsQuestions]);
+            questionIndex = 0;
+            displayQuestion();
+        }
+
+        // Function to display the current question
+        function displayQuestion() {
+            if (shuffledQuestions.length === 0) {
+                questionAnswerDiv.innerHTML = "<strong>No more questions!</strong>";
+                return;
+            }
+            const currentQA = shuffledQuestions[questionIndex];
+            questionAnswerDiv.innerHTML = `<strong>Question:</strong> ${currentQA.question}<br><strong>Answer:</strong> ${currentQA.answer}`;
+        }
+
+        // Bounce animation on click
+        yellowBox.addEventListener("click", () => {
+            yellowBox.classList.add("animate-bounce");
+            setTimeout(() => {
+                yellowBox.classList.remove("animate-bounce");
+            }, 300);
+            questionIndex = (questionIndex + 1) % shuffledQuestions.length;
+            displayQuestion();
+        });
+
+        // Initialize the quiz
+        initializeQuestions();
+    </script>
+
+</body>
+</html>
